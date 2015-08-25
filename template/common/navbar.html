@@ -30,7 +30,7 @@
 				</ul>
 			</div>
 			<div class="menu_group">
-				<a href="#" id='topbar_user' data-toggle="dropdown" class="topbar_menu"><i class="font-icon icon-user"></i><?php echo $_SESSION['kod_user']['name'];?>&nbsp;<b class="caret"></b></a>
+				<a href="#" id='topbar_user' data-toggle="dropdown" class="topbar_menu"><i class="font-icon icon-user"></i><?php global $zbp; echo $zbp->user->Name;?>&nbsp;<b class="caret"></b></a>
 				<ul class="dropdown-menu menu-topbar_user fadein pull-right" role="menu" aria-labelledby="topbar_user">
 					
 					<li><a href="javascript:core.setting('theme');"><i class="font-icon icon-dashboard"></i><?php echo $L['setting_theme'];?></a></li>
