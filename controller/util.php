@@ -135,32 +135,35 @@ function php_env_check(){
 
 //语言包加载：优先级：cookie获取>自动识别
 //首次没有cookie则自动识别——存入cookie,过期时间无限
-function init_lang(){
+function init_lang() {
+    global $zbp;
+    $lang = $zbp->lang['lang'];
     if (isset($_COOKIE['kod_user_language'])) {
         $lang = $_COOKIE['kod_user_language'];
-    }else{//没有cookie
-        preg_match('/^([a-z\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
-        $lang = $matches[1];
-        switch (substr($lang,0,2)) {
-            case 'zh':
-                if ($lang != 'zn-TW'){
-                    $lang = 'zh-CN';
-                }
-                break;
-            case 'en':$lang = 'en';break;
-            default:$lang = 'en';break;
+    } else {
+//没有cookie
+        $language_array = array(
+            'zh-cn' => 'zh_CN',
+            'zh-tw' => 'zh_TW',
+            'en' => 'en',
+        );
+        if (isset($language_array[$lang])) {
+            $lang = $language_array[$lang];
+        } else {
+            $lang = 'zh_CN';
         }
-        $lang = str_replace('-', '_',$lang);
-        setcookie('kod_user_language',$lang, time()+3600*24*365);
+        $lang = str_replace('-', '_', $lang);
+        setcookie('kod_user_language', $lang, time() + 3600 * 24 * 365);
     }
-    if ($lang == '') $lang = 'en';
-    
-    $lang = str_replace(array('/','\\','..','.'),'',$lang);
+    if ($lang == '') {
+        $lang = 'zh_CN';
+    }
+
+    $lang = str_replace(array('/', '\\', '..', '.'), '', $lang);
     define('LANGUAGE_TYPE', $lang);
-    include(LANGUAGE_PATH.$lang.'/main.php');
+    include LANGUAGE_PATH . $lang . '/main.php';
     $GLOBALS['L'] = $L;
 }
-
 function init_setting(){
     $setting_file = USER_SYSTEM.'system_setting.php';
     if (!file_exists($setting_file)){//不存在则建立
