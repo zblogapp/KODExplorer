@@ -91,54 +91,7 @@ define(function(require, exports) {
 	};
 	//自动更新
 	var update = function(){
-		if (G.is_root !=1) return;
-		var id = 'check_version_dialog',
-			$button = $('.'+id).find('.update_click'),
-			$press  = $('.'+id).find('.progress'),
-			$tips 	= $('.'+id).find('.ver_tips');
-		var new_file = current_version_file,
-			save_to  = G.basic_path+'data/',
-			unzip_to = G.basic_path;
-		$tips.removeClass('ignore').html(LNG.update_downloading);
-		$button.addClass('hidden');
-		$press.removeClass('hidden').fadeIn(300);
-
-		_download(new_file,save_to,function(data){
-			if (data.code) {
-				var zipfile = data.info;
-				if (zipfile.length<20) {//新的远程下载返回文件名 之前为全名。
-					zipfile = save_to+zipfile;
-				}
- 				var remove = 'list=[{"type":"file","path":"'+urlEncode(zipfile)+'"}]';
-				_unzip(zipfile,G.basic_path,function(data){
-					if (data.code) {//更新成功
-						_remove(remove,function(){//删除下载的安装包
-							Cookie.del(kod_user_online);
-							$press.addClass('hidden');
-							$tips.html(LNG.update_success);
-							$button.removeClass('hidden')
-								.unbind('click')
-								.removeClass('update_click')
-								.addClass('this')
-								.html(LNG.update_success);
-							setTimeout(function(){//更新完自动刷新
-								FrameCall.goRefresh();
-							},2000);
-						});
-						return;
-					}
-					//解压失败
-					$press.addClass('hidden');
-					$tips.html(LNG.update_unzip_fail);
-					$button.removeClass('hidden').html(LNG.update_auto_update);
-				});
-				return;
-			}
-			//解压失败
-			$press.addClass('hidden');
-			$tips.html(LNG.update_download_fail);
-			$button.removeClass('hidden').html(LNG.update_auto_update);			
-		});
+		return;
 	};
 
 	var init_language = function(){
@@ -192,57 +145,7 @@ define(function(require, exports) {
 
 	//自动检查版本，自动更新
 	var check_version = function(display){
-		var ver_new = parseFloat(server_version),
-			ver_local = parseFloat(local_version),
-			key_timeout = 'kod_update_ignore_timeout',
-			has_new = false;
-		if (ver_new > ver_local) has_new=true;
-        if (local_version.indexOf('commercial') >1) return;
-		//if (ver_new != ver_local) has_new=true;
-
-		//对话框显示
-		var show_dialog = function(){
-			var id = 'check_version_dialog';
-			if ($('.'+id).length==0) {
-				init_language();
-				var render = template.compile(dialog_tpl_html);
-				var html = dialog_tpl_css+render({
-						loading_img:G.static_path+'images/loading_simple.gif',
-						LNG:LNG,has_new:has_new,
-						readmore_href:readmore_href,
-						ver_new:server_version,ver_local:local_version});				
-				art.dialog.through({
-					id:id,
-					simple:true,
-					top:'50%',
-					resize:false,
-					width:330,
-					title:LNG.update_title,
-					padding:'0',
-					fixed:true,
-					content:html
-				});
-				$('.'+id)
-					.hide()
-					.fadeIn(600)
-					.find('.update_click').unbind('click').bind('click',function(){
-						update();
-						Cookie.del(key_timeout);
-				});
-				$('.'+id).find('.ignore').die('click').live('click',function(){
-					//设置cookie一年有效,2天后检查;
-					Cookie.set(key_timeout,time()+3600*24*2,24*365);
-					art.dialog.list[id].close();
-				});
-			}			
-		};
-
-		if (display) show_dialog();
-		if (has_new && //第一次
-			(Cookie.get(key_timeout) == undefined ||
-			 Cookie.get(key_timeout) <= time())) {
-			show_dialog();
-		}
+		return;
 	};
 	var user_state = function(){
 		//当前版本
@@ -255,17 +158,7 @@ define(function(require, exports) {
 	};
 	//入口函数,没有参数则默认检查版本
 	var todo = function(action) {
-		switch(action){
-			case undefined:
-				//自动检查版本,有更新才跳出对话框
-				if (G.is_root == 1) {
-					check_version(false);
-				}
-				user_state();
-				break;
-			case 'check':check_version(true);break;//检查版本,显示版本信息
-			default:break;
-		}
+		return true;
 	};
 	return {
 		todo:todo
