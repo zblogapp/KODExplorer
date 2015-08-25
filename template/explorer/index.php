@@ -71,7 +71,6 @@
 			<div class="bottom_box">
 				<div class="box_content">
 					<a href="javascript:ui.path.list('*recycle*');" class="cell menuRecycleButton"><i class="font-icon icon-trash"></i><span><?php echo $L['recycle'];?></span></a>
-					<a href="javascript:ui.path.list('*share*');" class="cell"><i class="font-icon icon-share-sign"></i><span><?php echo $L['my_share'];?></span></a>
 					<div style="clear:both"></div>
 				</div>
 			</div>
@@ -113,7 +112,6 @@
 						    </button>
 						    <ul class="dropdown-menu pull-right drop-menu-action fadein">
 								<li id="open"><a href='javascript:;'><i class="font-icon icon-folder-open-alt"></i><?php echo $L['open'];?></a></li>
-							    <li id="share"><a href='javascript:;'><i class="font-icon icon-share-sign"></i><?php echo $L['share'];?></a></li>
 							    <li id="download"><a href='javascript:;'><i class="font-icon icon-download"></i><?php echo $L['download'];?></a></li>
 							    <li id="zip"><a href='javascript:;'><i class="font-icon icon-folder-close"></i><?php echo $L['zip'];?></a></li>
 							    <li class="divider"></li>
@@ -124,7 +122,6 @@
 							    <li id="remove"><a href='javascript:;'><i class="font-icon icon-trash"></i><?php echo $L['remove'];?></a></li>
 								<li class="divider"></li>
 								<li id="clone"><a href='javascript:;'><i class="font-icon icon-external-link"></i><?php echo $L['clone'];?></a></li>
-							    <li id="createLink"><a href='javascript:;'><i class="font-icon icon-share-alt"></i><?php echo $L['createLink'];?></a></li>
 							    <li class="divider"></li>
 							    <li id="info"><a href='javascript:;'><i class="font-icon icon-info"></i><?php echo $L['info'];?></a></li>
 						    </ul>
