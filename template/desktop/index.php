@@ -14,14 +14,11 @@
 	
 	<link href="<?php echo STATIC_PATH;?>style/skin/<?php echo $config['user']['theme'];?>app_desktop.css?ver=<?php echo KOD_VERSION;?>" rel="stylesheet" id='link_css_list'/>
 	
-	<style type="text/css" media="screen">
-	.desktop{background-image: url('<?php echo $wall;?>');background-color:#222;}
-	</style>
 </head>
 <body style="overflow: hidden;" oncontextmenu="return core.contextmenu();">
 	<?php include(TEMPLATE.'common/navbar.html');?>
-	<img class="wallbackground" src="" style='overflow:hidden;position:fixed;'/>
-	<div class='bodymain html5_drag_upload_box desktop'>
+	<div class='bodymain html5_drag_upload_box desktop' style="background-image: url('<?php echo $wall;?>');">
+		<img class="wallbackground" src="<?php echo $wall;?>"/>
 		<div class="fileContiner fileList_icon hidden">
 			<div class="file systemBox menuDefault" 
 			data-app={"type":"app","width":"","height":"","content":"core.explorer('',LNG.my_computer);"}>
@@ -88,6 +85,6 @@
 	});
 	seajs.use("app/src/desktop/main");
 </script>
-
 </body>
 </html>
+

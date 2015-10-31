@@ -6,27 +6,20 @@
 */
 body {
 	background:#f6f6f6;font-size: 13px; padding: 0px; margin: 0px; color:#666;
-	font-family: "微软雅黑", "Microsoft Yahei", "STXihei", arial, sans-serif;
+	font-family: 'Helvetica Neue', "Microsoft Yahei", "微软雅黑", "STXihei", "WenQuanYi Micro Hei", sans-serif;
 }
 
 body, input, textarea{-webkit-font-smoothing: antialiased;font-smoothing: antialiased;}
 input,button { font-family: "微软雅黑", "Microsoft Yahei", "STXihei", arial, sans-serif;}
-.loginbox{box-shadow: 0px 10px 60px rgba(0,0,0,0.4);width:428px;border-radius:3px;padding-bottom: 30px;
-    background: #fff;background: rgba(255,255,255,0.9);
+.loginbox{box-shadow: 0px 10px 60px rgba(0,0,0,0.4);width:428px;border-radius:4px;padding-bottom: 30px;
+    background: rgba(255,255,255,0.9);background: #fff \9;
     position:absolute;top:46%;left:50%;margin-top:-209px;margin-left: -214px;}
 a{text-decoration:none;color: #adf;font-weight: 800;}
 a:hover{color:#fff;}
-
 .background{
-	position: absolute;
+	position:absolute;overflow: hidden;z-index: -10;
+	width:100%;height: 100%;
   	right: 0px;top: 0px; bottom: 0px;left: 0px;
-	-moz-background-size: 100% 100%;
-	-o-background-size: 100% 100%;
-	-webkit-background-size: 100% 100%;
-	-ms-background-size: 100% 100%;
-	background-size: 100% 100%;
-	/*background-image: url('../images/wall_page/1.jpg');*/
-    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
 }
 .title{width:100%;background:#6699cc url(../images/login.png);height: 150px;
     padding-top:0px;border-top-left-radius: 3px;border-top-right-radius: 3px;}
@@ -67,7 +60,7 @@ input:focus {border-color: #75A1F0; outline: none; box-shadow: 0 0 12px #75A1F0;
 h4{margin: 0;padding: 3px 10px;border-left: 3px solid;margin-bottom: 10px;}
 
 
-.guest{text-align:center;margin: 0 auto;margin-top:30px;}
+.guest{text-align:center;margin: 0 auto;padding: 30px 0 20px 0;}
 .guest a{color:#69C;text-decoration:none;border:2px solid #cdf;
     border-radius:20px;padding:6px 1.5em;;display: inline-block;}
 .guest a i{padding-left: 8px;}
