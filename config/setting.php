@@ -15,9 +15,9 @@ $config['settings'] = array(
 	'updloadBindary'	=> 0,			 //1:以二进制方式上传;后端服务器以php://input接收;0则为传统方式上传
 	'uploadCheckChunk'	=> true,		 //开关断点续传，一个文件上传一半时中断，同一个文件再次上传到同一个位置时会接着之前的进度上传。
 	'paramRewrite'		=> false,		 //开启url 去除? 直接跟参数
-	'httpSendFile'		=> false,		 //调用webserver下载 http://www.laruence.com/2012/05/02/2613.html; 
+	'httpSendFile'		=> false,		 //调用webserver下载 http://www.laruence.com/2012/05/02/2613.html;
 										 //https://www.lovelucy.info/x-sendfile-in-nginx.html
-	
+
 	'pluginServer'		=> "http://api.kodcloud.com/?",
 	'staticPath'		=> "./static/",	//静态文件目录,可以配置到cdn;
 	'pluginHost'		=> PLUGIN_HOST  //静态文件目录
@@ -44,7 +44,7 @@ $config['settings']['appType'] = array(
 	array('type' => 'others','name' => 'app_group_others','class' => 'icon-ellipsis-horizontal'),
 );
 $config['defaultPlugins'] = array(
-	'adminer','DPlayer','imageExif','jPlayer','officeLive','photoSwipe','picasa',//'pdfjs',
+	'DPlayer','imageExif','jPlayer','officeLive','photoSwipe','picasa',//'pdfjs',
 	'simpleClock','toolsCommon','VLCPlayer','webodf','yzOffice','zipView'
 );
 
@@ -63,7 +63,7 @@ $config['settingSystemDefault'] = array(
 	'newUserFolder'		=> "document,desktop,pictures,music",
 	'newGroupFolder'	=> "share,doc,pictures",	//新建分组默认建立文件夹
 	'groupShareFolder'	=> "share",
-	
+
 	'desktopFolder'		=> 'desktop',	// 桌面文件夹别名
 	'versionType'		=> "A",			// 版本
 	'rootListUser'		=> 0,			// 组织架构根节点展示群组内用户
@@ -97,7 +97,7 @@ $config['settingDefault'] = array(
 	'wall'				=> "8",			// wall picture
 	"fileRepeat"		=> "replace",	// rename,replace,skip
 	"recycleOpen"		=> "1",			// 1 | 0 代表是否开启
-	'resizeConfig'		=> 
+	'resizeConfig'		=>
 		'{"filename":250,"filetype":80,"filesize":80,"filetime":215,"editorTreeWidth":200,"explorerTreeWidth":200}'
 );
 $config['editorDefault'] = array(
@@ -115,7 +115,7 @@ $config['editorDefault'] = array(
 );
 
 
-// 多选项总配置	
+// 多选项总配置
 // http://blog.sina.com.cn/s/blog_7981f91f01012wm7.html
 // http://monsoongale.iteye.com/blog/1044431
 $config['settingAll'] = array(
@@ -163,7 +163,7 @@ $config['settingAll'] = array(
 		"uz"	=>	array("O'zbekiston","乌兹别克语","Uzbek-cyrillic"),
 		"vi"	=>	array("Tiếng Việt","越南语","Vietnamese"),
 	),//de el fi fr nl pt	d/m/Y H:i
-	
+
 	'themeall'		=> "mac,win10,win7,metro,metro_green,metro_purple,metro_pink,metro_orange,alpha_image,alpha_image_sun,alpha_image_sky,diy",
 	'codethemeall'	=> "chrome,clouds,crimson_editor,eclipse,github,kuroir,solarized_light,tomorrow,xcode,ambiance,monokai,idle_fingers,pastel_on_dark,solarized_dark,twilight,tomorrow_night_blue,tomorrow_night_eighties",
 	'codefontall'	=> 'Source Code Pro,Consolas,Courier,DejaVu Sans Mono,Liberation Mono,Menlo,Monaco,Monospace'
