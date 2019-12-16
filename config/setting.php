@@ -44,8 +44,8 @@ $config['settings']['appType'] = array(
 	array('type' => 'others','name' => 'app_group_others','class' => 'icon-ellipsis-horizontal'),
 );
 $config['defaultPlugins'] = array(
-	'DPlayer','imageExif','jPlayer','photoSwipe','picasa',//'pdfjs',
-	'toolsCommon','VLCPlayer','webodf'
+	'imageExif','jPlayer','photoSwipe','picasa',//'pdfjs',
+	'toolsCommon'
 );
 
 
