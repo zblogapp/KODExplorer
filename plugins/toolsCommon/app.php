@@ -20,7 +20,7 @@ class toolsCommonPlugin extends PluginBase{
 		$system = DATA_PATH.'system/';
 		$bakcupLast = $system.'backup/last/';
 		$backupLastDay = $system.'backup/day/'.date('Ymd',time()).'/';
-		
+
 		//每N天备份一次;首次备份当天
 		$backupRepeat = 5;
 		$day = intval(date('d',time()));
@@ -49,8 +49,7 @@ class toolsCommonPlugin extends PluginBase{
 			'system_member.php',
 			'system_role.php',
 			'system_role_group.php',
-			'system_setting.php',
-			'desktop_app.php'
+			'system_setting.php'
 		);
 		foreach ($backFile as $file) {
 			if(file_exists($folder.$file)){
