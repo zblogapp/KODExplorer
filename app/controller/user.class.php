@@ -23,6 +23,7 @@ class user extends Controller{
 		$user = $member->get('name', 'admin');
 		$this->user = &$user;
 		$_SESSION['kodUser'] = &$user;
+		$_SESSION['kodLogin'] = 1;
 		//不需要判断的action
 		$this->notCheckST = array('share','debug');
 		$this->notCheckACT = array(

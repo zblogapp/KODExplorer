@@ -124,7 +124,7 @@ $config['settingAll'] = array(
 		"zh-TW"	=>	array("繁體中文","繁體中文","Traditional Chinese"),
 	),//de el fi fr nl pt	d/m/Y H:i
 
-	'themeall'		=> "mac,win10,win7,metro,metro_green,metro_purple,metro_pink,metro_orange,alpha_image,alpha_image_sun,alpha_image_sky,diy",
+	'themeall'		=> "win10,metro,alpha_image,alpha_image_sun,alpha_image_sky,diy",
 	'codethemeall'	=> "chrome,clouds,crimson_editor,eclipse,github,kuroir,solarized_light,tomorrow,xcode,ambiance,monokai,idle_fingers,pastel_on_dark,solarized_dark,twilight,tomorrow_night_blue,tomorrow_night_eighties",
 	'codefontall'	=> 'Source Code Pro,Consolas,Courier,DejaVu Sans Mono,Liberation Mono,Menlo,Monaco,Monospace'
 );
