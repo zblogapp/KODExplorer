@@ -5,12 +5,11 @@
 			<div class="user-space-info"></div>
 			<div class="box-content">
 				<div class="cell menu-recycle-button"><i class="font-icon icon-trash"></i><span><?php echo LNG('recycle');?></span></div>
-				<div class="cell menuShareButton"><i class="font-icon icon-share-sign"></i><span><?php echo LNG('my_share');?></span></div>
 				<div style="clear:both"></div>
 			</div>
 		</div>
 	</div><!-- / frame-left end-->
-	
+
 	<div class='frame-resize'></div>
 	<div class='frame-right'>
 		<div class="frame-header">
@@ -47,7 +46,7 @@
 					</div>
 
 					<div class="role-label-box"></div>
-				</div><!-- /header-middle end-->		
+				</div><!-- /header-middle end-->
 				<div class='header-right'>
 					<input type="text" name="seach" class="btn-left-radius"/>
 					<button class="btn btn-default btn-right-radius" id='search' title='<?php echo LNG('search');?>' type="button">
@@ -67,7 +66,7 @@
 						<button data-action='upload' class="btn btn-default" type="button">
 							<i class="font-icon icon-cloud-upload"></i><?php echo LNG('upload');?>
 						</button>
-						
+
 						<button data-action='download' class="btn btn-default" type="button">
 							<i class="font-icon icon-download"></i><?php echo LNG('download');?>
 						</button>
@@ -176,7 +175,7 @@
 						  <i class="font-icon icon-dashboard"></i>&nbsp;&nbsp;<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu pull-right dropdown-menu-theme animated menuShow">
-							<?php 
+							<?php
 								$arr = explode(',',$config['settingAll']['themeall']);
 								foreach ($arr as $value) {
 									echo "<li class='list' theme='{$value}'><a href='javascript:void(0);'>".LNG('theme_'.$value)."</a></li>\n";

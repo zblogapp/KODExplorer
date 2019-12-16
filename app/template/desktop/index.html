@@ -2,7 +2,7 @@
 	<title><?php echo LNG('ui_desktop').' - '.strip_tags(LNG('kod_name')).LNG('kod_power_by');?></title>
 	<link rel="stylesheet" href="<?php echo STATIC_PATH;?>style/skin/base/app_desktop.css?ver=<?php echo KOD_VERSION;?>"/>
 	<link rel="stylesheet" href="<?php echo STATIC_PATH;?>style/skin/<?php echo $config['user']['theme'];?>.css?ver=<?php echo KOD_VERSION;?>" id='link-theme-style'/>
-	
+
 </head>
 <body style="overflow: hidden;" oncontextmenu="return core.contextmenu();" id="page-desktop">
 	<?php echo '<style >.aero:before,.aero:after,.full-background-wall{background-image:url('.$wall.')}</style>';?>
@@ -33,7 +33,6 @@
 		</ul>
 		<ul id="links">
 			<li class="icon"></li>
-			<li><a href="#" onclick="core.explorer('<?php echo KOD_USER_SHARE.':'.$_SESSION['kodUser']['userID'].'/';?>','<?php echo LNG('my_share');?>');"><span><?php echo LNG('my_share');?></span></a></li>
 			<li><a href="#" onclick="core.explorer('<?php echo MYHOME;?>/pictures','<?php echo LNG('my_picture');?>');"><span><?php echo LNG('my_picture');?></span></a></li>
 			<li><a href="#" onclick="core.explorer('<?php echo MYHOME;?>/music','<?php echo LNG('my_music');?>');"><span><?php echo LNG('my_music');?></span></a></li>
 			<li><a href="#" onclick="core.explorer('<?php echo MYHOME;?>/download','<?php echo LNG('download');?>');"><span><?php echo LNG('download');?></span></a></li>
