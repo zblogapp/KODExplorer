@@ -45,7 +45,7 @@ $config['settings']['appType'] = array(
 );
 $config['defaultPlugins'] = array(
 	'DPlayer','imageExif','jPlayer','officeLive','photoSwipe','picasa',//'pdfjs',
-	'simpleClock','toolsCommon','VLCPlayer','webodf','yzOffice','zipView'
+	'toolsCommon','VLCPlayer','webodf','yzOffice','zipView'
 );
 
 

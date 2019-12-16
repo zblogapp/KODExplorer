@@ -1,4 +1,4 @@
-<?php 
+<?php
 $desktopApps = array(
 	'my_computer' => array(
 		"type"		=> "app",
@@ -38,16 +38,6 @@ $desktopApps = array(
 		"menuType"	=> "systemBox menu-default",
 		"ext"		=> 'oexe',
 		"path"		=> "/",
-		"resize"	=> 1
-	),
-	'appStore' => array(
-		"type"		=> "app",
-		"content"	=> "core.appStore();",
-		"icon"		=> STATIC_PATH."images/file_icon/icon_others/appStore.png",
-		"name"		=> LNG('app_store'),
-		"menuType"	=> "systemBox menu-default",
-		"ext"		=> 'oexe',
-		"path"		=> "",
 		"resize"	=> 1
 	)
 );
