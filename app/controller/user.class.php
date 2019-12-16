@@ -16,20 +16,19 @@ class user extends Controller{
 		//php5.4 bug;需要重新读取一次
 		@session_start();
 		@session_write_close();
-		if(!isset($_SESSION)){//避免session不可写导致循环跳转
-			$this->login(DATA_PATH."<br/>".LNG('path_can_not_write_data') );
-		}else{
-			$this->user = &$_SESSION['kodUser'];
-			if(!isset($this->user['path']) && isset($this->user['name'])){//旧版本数据
-				$this->user['path'] = $this->user['name'];
-			}
-		}
+		global $zbp;
+		if (!$zbp->CheckRights('root')) {$zbp->ShowError(6);die();}
+		$this->loginFirst();
+		$member = systemMember::loadData();
+		$user = $member->get('name', 'admin');
+		$this->user = &$user;
+		$_SESSION['kodUser'] = &$user;
 		//不需要判断的action
 		$this->notCheckST = array('share','debug');
 		$this->notCheckACT = array(
 			'loginFirst','login','logout','loginSubmit',
 			'checkCode','publicLink','qrcode','sso');
-		
+
 		$this->notCheckApp = array();//'pluginApp.to'
 		if(!$this->user){
 			$this->notCheckApp = array('pluginApp.to','api.view');
@@ -56,48 +55,10 @@ class user extends Controller{
 		if(in_array(ACT,$this->notCheckACT))   return;//不需要判断的action
 		if(in_array(ST.'.'.ACT,$this->notCheckApp))   return;//不需要判断的对应入口
 
-		if(isset($_SESSION['kodLogin']) && $_SESSION['kodLogin']===true && $this->user){
+		if($this->user){
 			$user = systemMember::getInfo($this->user['userID']);
 			$this->_loginSuccess($user);
 			return;
-		}else if($_COOKIE['kodUserID']!='' && $_COOKIE['kodToken']!=''){
-			$user = systemMember::getInfo($_COOKIE['kodUserID']);
-			if (!is_array($user) || !isset($user['password'])) {
-				$this->logout();
-			}
-			if($this->_makeLoginToken($user) === $_COOKIE['kodToken']){
-				@session_start();//re start
-				$_SESSION['kodLogin'] = true;
-				$_SESSION['kodUser']= $user;
-				$_SESSION['X-CSRF-TOKEN'] = rand_string(20);
-				$this->_setCsrfToken();
-				setcookie('kodUserID', $_COOKIE['kodUserID'], time()+3600*24*100);
-				setcookie('kodToken',$_COOKIE['kodToken'],time()+3600*24*100);
-
-				//check if session work
-				@session_write_close();
-				unset($_SESSION);
-				@session_start();
-				if( !isset($_SESSION['kodUser']) || 
-					!is_array($_SESSION['kodUser'])){
-					$this->login(DATA_PATH."<br/>".LNG('path_can_not_write_data') );
-				}else{
-					$this->_loginSuccess($user);
-				}
-				return;
-			}
-			$this->logout();//session user数据不存在
-		}else{
-			if ($this->config['settingSystem']['autoLogin'] != '1') {
-				$this->logout();//不自动登录
-			}else{
-				if (!file_exists(USER_SYSTEM.'install.lock')) {
-					$this->display('install.html');
-					exit;
-				}
-				header('location:./index.php?user/loginSubmit&name=guest&password=guest');
-				exit;
-			}
 		}
 	}
 	private function _setCsrfToken(){
@@ -169,7 +130,7 @@ class user extends Controller{
 		}
 		$user = $_SESSION['kodUser'];
 		//admin 或者不填则允许所有kod用户登陆
-		if( $user['role'] == '1' || 
+		if( $user['role'] == '1' ||
 			!isset($this->in['check']) ||
 			!isset($this->in['value']) ){
 			$result = true;
@@ -197,7 +158,7 @@ class user extends Controller{
 			default:break;
 		}
 		if(!$result && $checkValue != false){
-			if( (is_string($checkValue) && $checkValue == $this->in['value']) || 
+			if( (is_string($checkValue) && $checkValue == $this->in['value']) ||
 				(is_array($checkValue)  && in_array($this->in['value'],$checkValue))
 				){
 				$result = true;
@@ -245,19 +206,19 @@ class user extends Controller{
 		}
 		$theConfig = array(
 			'environment'	=> STATIC_JS,
-			'lang'          => I18n::getType(),			
+			'lang'          => I18n::getType(),
 			'systemOS'		=> $this->config['systemOS'],
 			'isRoot'        => $GLOBALS['isRoot'],
 			'userID'        => $this->user['userID'],
 			'webRoot'       => $GLOBALS['webRoot'],
 			'webHost'       => HOST,
-			'appHost'       => APP_HOST,			
+			'appHost'       => APP_HOST,
 			'staticPath'    => STATIC_PATH,
 			'appIndex'  	=> $_SERVER['SCRIPT_NAME'],
 			'basicPath'     => $basicPath,
 			'userPath'      => $userPath,
 			'groupPath'     => $groupPath,
-			
+
 			'myhome'        => MYHOME,
 			'myDesktop'		=> MYHOME.DESKTOP_FOLDER.'/',
 			'settings'		=> array(
@@ -291,6 +252,7 @@ class user extends Controller{
 			'ST'					=> $this->in['st'],
 			'ACT'					=> $this->in['act'],
 		);
+
 		if(isset($this->config['settingSystem']['versionHash'])){
 			$theConfig['versionHash'] = $this->config['settingSystem']['versionHash'];
 			$theConfig['versionHashUser'] = $this->config['settingSystem']['versionHashUser'];
@@ -298,7 +260,7 @@ class user extends Controller{
 		if (!isset($GLOBALS['auth'])) {
 			$GLOBALS['auth'] = array();
 		}
-		
+
 		$useTime = mtime() - $GLOBALS['config']['appStartTime'];
 		header("Content-Type: application/javascript; charset=utf-8");
 		echo 'if(typeof(kodReady)=="undefined"){kodReady=[];}';
@@ -314,7 +276,7 @@ class user extends Controller{
 	}
 	public function appConfig(){
 		$theConfig = array(
-			'lang'          => I18n::getType(),			
+			'lang'          => I18n::getType(),
 			'isRoot'        => $GLOBALS['isRoot'],
 			'userID'        => $this->user['userID'],
 			'myhome'        => MYHOME,
@@ -333,21 +295,6 @@ class user extends Controller{
 	 * 登录view
 	 */
 	public function login($msg = ''){
-		if(isset($this->in['isAjax'])){
-			show_json($msg,false);
-		}
-		if (!file_exists(USER_SYSTEM.'install.lock')) {
-			chmod_path(BASIC_PATH,DEFAULT_PERRMISSIONS);
-			$this->display('install.html');
-			exit;
-		}
-		$this->assign('msg',$msg);
-		if (is_wap()) {
-			$this->display('loginWap.html');
-		}else{
-			$this->display('login.html');
-		}
-		exit;
 	}
 
 	/**
@@ -373,113 +320,28 @@ class user extends Controller{
 				'status'		=> 1,
 			);
 			$sql->set($root,$user);
-			if( !$user['createTime'] || 
-				!$user['path'] ||
-				!file_exists(USER_PATH.$user['path'])
-				){
-				$member = new systemMember();
-				$member->initInstall();
-			}
+			$member = new systemMember();
+			$member->initInstall();
 		}
-		header('location:./index.php?user/login');
-		exit;
 	}
 	/**
 	 * 退出处理
 	 */
 	public function logout(){
+		global $zbp;
+		Redirect($zbp->host . 'zb_system/admin/');
 		session_start();
 		user_logout();
 	}
 
 	/**
 	 * 登录数据提交处理；登陆跳转：
-	 * 
+	 *
 	 * 自动登陆：index.php?user/loginSubmit&name=guest&password=guest
 	 * 登陆自动跳转：index.php?user/login&link=http://baidu.com
 	 * api登陆:index.php?user/loginSubmit&login_token=ZGVtbw==|da9926fdab0c7c32ab2c329255046793
 	 */
 	public function loginSubmit(){
-		$apiLoginCheck = false;
-		if(isset($this->in['login_token'])){
-			$api_token = $this->config['settings']['apiLoginTonken'];
-			$param = explode('|',$this->in['login_token']);
-			if( strlen($api_token) < 5 ||
-				count($param) != 2 || 
-				md5(base64_decode($param[0]).$api_token) != $param[1]
-				){
-				$this->_loginDisplay("API 接口参数错误!",false);
-			}
-			$this->in['name'] = urlencode(base64_decode($param[0]));
-			$apiLoginCheck = true;
-		}else{
-			if(!isset($this->in['name']) || !isset($this->in['password'])) {
-				$this->_loginDisplay(LNG('login_not_null'),false);
-			}
-			if( need_check_code()
-				&& $this->in['name'] != 'guest'
-				&& $_SESSION['checkCode'] !== strtolower($this->in['checkCode']) ){
-				$this->_loginDisplay(LNG('code_error'),false);
-			}
-		}
-
-		$name = rawurldecode($this->in['name']);
-		$password = rawurldecode($this->in['password']);
-
-		if($this->in['salt']){
-			$key = substr($password,0,5)."2&$%@(*@(djfhj1923";
-			$password = Mcrypt::decode(substr($password,5),$key);
-		}
-
-		$member = systemMember::loadData();
-		$user = $member->get('name',$name);
-		if($apiLoginCheck && $user){//api自动登陆
-		}else if ($user === false || md5($password) !== $user['password']){
-			$this->_loginDisplay(LNG('password_error'),false);//$member->get()
-		}else if($user['status'] == 0){
-			$this->_loginDisplay(LNG('login_error_user_not_use'),false);
-		}else if($user['role']==''){
-			$this->_loginDisplay(LNG('login_error_role'),false);
-		}
-
-		//首次登陆，初始化app 没有最后登录时间
-		$this->_loginSuccess($user);//登陆成功
-		if(!$user['lastLogin']){
-			$app = init_controller('app');
-			$app->initApp($user);
-		}
-		$user['lastLogin'] = time();//记录最后登录时间
-		$member->set($user['userID'],$user);
-		
-		session_start();//re start 有新的修改后调用
-		$_SESSION['kodLogin'] = true;
-		$_SESSION['kodUser']= $user;
-		$_SESSION['X-CSRF-TOKEN'] = rand_string(20);
-		$this->_setCsrfToken();
-		setcookie('kodUserID', $user['userID'], time()+3600*24*100);
-		if ($this->in['rememberPassword'] == '1') {
-			setcookie('kodToken',$this->_makeLoginToken($user),time()+3600*24*100);
-		}
-		$this->_loginDisplay('ok',true);
-	}
-	private function _loginDisplay($msg,$success){
-		if(isset($this->in['isAjax'])){
-			if(isset($this->in['getToken']) && $success){
-				show_json(access_token_get(),true);
-			}
-			show_json($msg,$success);
-		}else{
-			if($success){
-				$href = './';
-				if(isset($this->in['link'])){
-					$href = rawurldecode($this->in['link']);
-				}
-				header('location:'.$href);
-			}else{
-				$this->login($msg);
-			}
-		}
-		exit;
 	}
 
 	//登陆token
@@ -495,17 +357,6 @@ class user extends Controller{
 	 * 修改密码
 	 */
 	public function changePassword(){
-		$passwordNow=rawurldecode($this->in['passwordNow']);
-		$passwordNew=rawurldecode($this->in['passwordNew']);
-		if (!$passwordNow && !$passwordNew)show_json(LNG('password_not_null'),false);
-		if ($this->user['password']==md5($passwordNow)){
-			$sql=systemMember::loadData();
-			$this->user['password'] = md5($passwordNew);
-			$sql->set($this->user['userID'],$this->user);
-			show_json('success');
-		}else {
-			show_json(LNG('old_password_error'),false);
-		}
 	}
 
 	//CSRF 防护；cookie设置：CSRF-TOKEN；header:提交X-CSRF-TOKEN
@@ -514,7 +365,7 @@ class user extends Controller{
 		$not_check = array('user.commonJs','pluginApp.index');
 		if( !$this->config['settingSystem']['csrfProtect'] ||
 			isset($this->in['accessToken']) ||
-			in_array(ST.'.'.ACT, $not_check) 
+			in_array(ST.'.'.ACT, $not_check)
 			){
 			return;
 		}
