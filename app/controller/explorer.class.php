@@ -49,7 +49,7 @@ class explorer extends Controller{
 			'pathCuteDrag','pathCopyDrag','pathPast','fileDownload'))){
 			return;
 		}
-		if( $GLOBALS['kodPathType'] == KOD_USER_SHARE && 
+		if( $GLOBALS['kodPathType'] == KOD_USER_SHARE &&
 			!strstr(trim($this->in['path'],'/'),'/')){//分享根目录
 			show_json(LNG('error'),false);
 		}
@@ -79,7 +79,7 @@ class explorer extends Controller{
 		//属性查看，单个文件则生成临时下载地址。没有权限则不显示
 		if (count($infoList)==1 && $infoList[0]['type']!='folder') {//单个文件
 			$file = $infoList[0]['path'];
-			if( $GLOBALS['isRoot'] || 
+			if( $GLOBALS['isRoot'] ||
 				$GLOBALS['auth']["explorer.fileDownload"]==1 ||
 				isset($this->in['viewPage'])){
 				$data['downloadPath'] = _make_file_proxy($file);
@@ -194,7 +194,7 @@ class explorer extends Controller{
 
 	public function pathRname(){
 		$rnameTo=_DIR($this->in['rnameTo']);
-		if (file_exists($rnameTo) && 
+		if (file_exists($rnameTo) &&
 			strtolower($rnameTo) !== strtolower($this->path) ) {
 			show_json(LNG('name_isexists'),false);
 		}
@@ -474,40 +474,6 @@ class explorer extends Controller{
 				'open'      => true,
 				'isParent'  => $rootIsparent
 			),
-
-			'public'=>array(
-				'name'		=> $groupRootName,
-				'menuType'  => "menu-tree-group-root menu-tree-group-public",
-				'ext' 		=> "group-public",
-				'children'  => $public,
-
-				'path' 		=> $publicPath,
-				'type'      => 'folder',
-				'open'      => true,
-				'isParent'  => $publicIsparent
-			),
-			'myGroup'=>array(
-				'name'		=> LNG('my_kod_group'),//TODO
-				'menuType'  => "menu-tree-group-root",
-				'ext' 		=> "group-self-root",
-				'children'  => $this->_groupSelf(),
-
-				'path' 		=> KOD_GROUP_ROOT_SELF,
-				'type'      => 'folder',
-				'open'      => true,
-				'isParent'  => true
-			),
-			'group'=>array(
-				'name'		=> LNG('kod_group'),
-				'menuType'  => "menu-tree-group-root",
-				'ext' 		=> "group-root",
-				'children'  => $this->_groupTree('1'),
-
-				'path' 		=> KOD_GROUP_ROOT_ALL,
-				'type'      => 'folder',
-				'open'      => true,
-				'isParent'  => true
-			),
 		);
 
 		//编辑器简化树目录
@@ -535,7 +501,7 @@ class explorer extends Controller{
 
 		$result = array();
 		foreach ($treeData as $key => $value) { //为空则不展示
-			if( count($value['children'])<1 && 
+			if( count($value['children'])<1 &&
 				in_array($key,array('myGroup','group')) ){//'fav'
 				continue;
 				//$value['isParent'] = false;
@@ -818,7 +784,7 @@ class explorer extends Controller{
 			$autoPath = get_filename_auto($pathPast.$filename,'',$this->config['user']['fileRepeat']);
 			if ($this->in['filename_auto']==1 &&
 				trim($autoPath,'/') == trim($pathCopy,'/')) {
-				$autoPath = get_filename_auto($pathPast.$filename,'','folder_rename');				
+				$autoPath = get_filename_auto($pathPast.$filename,'','folder_rename');
 			}
 
 			Hook::trigger("explorer.pathCopyBefore",$pathCopy,$autoPath);
@@ -879,7 +845,7 @@ class explorer extends Controller{
 			show_json(LNG('clipboard_null'),false,$data);
 		}
 		for ($i=0; $i < $listNum; $i++) {
-			$pathCopy = _DIR($clipboard[$i]['path']);			
+			$pathCopy = _DIR($clipboard[$i]['path']);
 			//重置pathType等数据;从回收站剪切出来不处理
 			if($copyType == 'cute' && $GLOBALS['kodPathType'] == KOD_USER_RECYCLE){
 			}else{
@@ -925,7 +891,7 @@ class explorer extends Controller{
 		file_put_out($this->path,true);
 	}
 	//文件下载后删除,用于文件夹下载
-	public function fileDownloadRemove(){ 
+	public function fileDownloadRemove(){
 		$path = get_path_this(_DIR_CLEAR($this->in['path']));
 		$path = iconv_system(USER_TEMP.$path);
 		$fileName = substr(get_path_this($path),10);//前10个字符为随机前缀
@@ -1013,7 +979,7 @@ class explorer extends Controller{
 		$name = get_path_this($path);
 		$name = substr($name,0,strrpos($name,'.'));
 		$ext  = get_path_ext($path);
-		
+
 		$unzipToAdd = '';
 		$unzipTo = get_path_father($path);
 		if(isset($this->in['toThis'])){//直接解压
@@ -1096,7 +1062,7 @@ class explorer extends Controller{
 				$cm->prorate($imageThumb,$thumbWidth,$thumbWidth);//生成等比例缩略图
 			}
 		}
-		if (!file_exists($imageThumb) || 
+		if (!file_exists($imageThumb) ||
 			filesize($imageThumb)<100){//缩略图生成失败则使用原图
 			$imageThumb=$this->path;
 		}
@@ -1225,12 +1191,12 @@ class explorer extends Controller{
 	//分享根目录
 	private function _pathShare(&$list){
 		$arr = explode(',',$GLOBALS['kodPathId']);
-		
+
 		//不展示用户时;屏蔽获取其他人分享列表
 		if( $arr[0] != $_SESSION['kodUser']['userID'] && !$this->_rootListUser()){
 			return;
 		}
-		$shareList = systemMember::userShareList($arr[0]);	
+		$shareList = systemMember::userShareList($arr[0]);
 		$beforeShareId = $GLOBALS['kodPathIdShare'];
 		foreach ($shareList as $key => $value) {
 			$thePath = _DIR(KOD_USER_SHARE.':'.$arr[0].'/'.$value['name']);
@@ -1420,11 +1386,11 @@ class explorer extends Controller{
 		}
 		$list['fileList'] = $fileListNew;
 		$list['folderList'] = $folderListNew;
-		
+
 		$list = _DIR_OUT($list);
 		$this->_roleCheckInfo($list);
 
-		
+
 		return $list;
 	}
 	private function _roleCheckInfo(&$list){
