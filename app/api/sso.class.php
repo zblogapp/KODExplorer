@@ -13,26 +13,11 @@ class SSO{
 		$sessionName = 'KOD_SESSION_SSO';
 		$sessionID   = $_COOKIE[$sessionName]?$_COOKIE[$sessionName]:md5(uniqid());
 		$basicPath   = dirname(dirname(dirname(__FILE__))).'/';
-		$sessionPath = $basicPath.'data/session/';
 		if(file_exists($basicPath.'config/define.php')){
 			include($basicPath.'config/define.php');
 			$sessionPath = DATA_PATH.'session/';
 		}
-		if(!file_exists($sessionPath)){
-			mkdir($sessionPath);
-		}
-		$sessionSavePath = @session_save_path();
-		@session_write_close();
 		@session_name($sessionName);
-		if( class_exists('SaeStorage') ||
-			defined('SAE_APPNAME') ||
-			defined('SESSION_PATH_DEFAULT') ||
-			@ini_get('session.save_handler') != 'files' ||
-			isset($_SERVER['HTTP_APPNAME']) ){
-			//sae 关闭自定义session路径
-		}else{
-			@session_save_path($sessionPath);//session path
-		}
 		@session_id($sessionID);
 
 		@session_start();
@@ -41,7 +26,6 @@ class SSO{
 		unset($_SESSION);
 		@session_start();
 		if(!isset($_SESSION['kodSSO']) || !$_SESSION['kodSSO']){
-			@session_save_path($sessionSavePath);//session path
 			@session_start();
 			$_SESSION['kodSSO'] = true;
 			@session_write_close();

@@ -468,18 +468,11 @@ function init_session()
             @session_name(SESSION_ID);
         }
     }
-    $aacb = @session_save_path();
-    if (class_exists("SaeStorage") || defined('SAE_APPNAME') || defined('SESSION_PATH_DEFAULT') || @ini_get('session.save_handler') != "files" || isset($_SERVER["HTTP_APPNAME"])) {
-    } else {
-        chmod_path(KOD_SESSION, 511);
-        @session_save_path(KOD_SESSION);
-    }
     @session_start();
     $_SESSION["kod"] = 1;
     @session_write_close();
     @session_start();
     if (!$_SESSION["kod"]) {
-        @session_save_path($aacb);
         @session_start();
         $_SESSION["kod"] = 1;
         @session_write_close();
