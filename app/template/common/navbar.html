@@ -5,11 +5,11 @@
 <div class="topbar aero">
 	<div class="content">
 		<button class="btn btn-wap-menu hidden"
-			data-toggle="collapse" data-target="#top-menu-left" 
+			data-toggle="collapse" data-target="#top-menu-left"
 		><i class="font-icon icon-reorder"></i></button>
 
 		<div class="top-left collapse" id="top-menu-left">
-			<?php 
+			<?php
 				$config = $GLOBALS['config'];
 				$html = '<a href="./" class="topbar-menu title">';
 				$subMenu = '';
@@ -47,7 +47,7 @@
 
 			<?php if($subMenu){?>
 			<div class="menu-group fl">
-				<a class="topbar-menu" id="topbar-submenu" 
+				<a class="topbar-menu" id="topbar-submenu"
 					data-toggle="dropdown" href="#" title="<?php echo LNG('menu_sub_menu');?>">
 					<i class="icon-th-large"></i>
 				</a>
@@ -64,7 +64,7 @@
 				<i class='font-icon icon-flag'></i>&nbsp;<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu topbar-language pull-right animated menuShow" role="menu" aria-labelledby="topbar-language">
-				  	<?php 
+				  	<?php
 				  		$tpl = "";
 				  		foreach ($config['settingAll']['language'] as $key => $value) {
 				  			$name = $value[0];
@@ -77,13 +77,13 @@
 			</div>
 			<?php } ?>
 			<!-- 全局设置语言则不再显示 -->
-			
+
 			<div class="menu-group">
 				<a href="#" id='topbar-user' data-toggle="dropdown" class="topbar-menu">
 					<i class="font-icon icon-user"></i>
-					<?php 
-						$user = $_SESSION['kodUser'];
-						echo $user['nickName']?$user['nickName']:$user['name'];
+					<?php
+						global $zbp;
+						echo $zbp->user->StaticName;
 					?>&nbsp;
 					<b class="caret"></b>
 				</a>
@@ -92,15 +92,12 @@
 					<li class="menu-system-setting"><a href="#" onclick="core.setting('system');"><i class="font-icon icon-cog"></i><?php echo LNG('system_setting');?></a></li>
 					<?php } ?>
 
-					<?php if($GLOBALS['isRoot'] || $GLOBALS['auth']['systemMember.get']){ ?>
-					<li class="menu-system-group"><a href="#" onclick="core.setting('member');"><i class="font-icon icon-group"></i><?php echo LNG('setting_member');?></a></li>
-					<?php } ?>
 					<?php if($GLOBALS['isRoot'] || $GLOBALS['auth']['pluginApp.index']){ ?>
 					<li class="menu-system-plugin">
 						<a href="#" onclick="core.openWindowBig('./index.php?pluginApp/index','<?php echo LNG('PluginCenter');?>');"><i class="font-icon icon-puzzle-piece"></i><?php echo LNG('PluginCenter');?></a></li>
-					<li role="presentation" class="divider"></li> 
+					<li role="presentation" class="divider"></li>
 					<?php } ?>
-	
+
 
 					<li class="menu-system-user"><a href="#" onclick="core.setting('user');"><i class="font-icon icon-user"></i><?php echo LNG('setting_user');?></a></li>
 					<li class="menu-system-theme"><a href="#" onclick="core.setting('theme');"><i class="font-icon icon-dashboard"></i><?php echo LNG('setting_theme');?></a></li>
