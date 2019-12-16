@@ -17,7 +17,6 @@ require_once ARCHIVE_LIB.'pclerror.lib.php';
 require_once ARCHIVE_LIB.'pcltrace.lib.php';
 require_once ARCHIVE_LIB.'pcltar.lib.php';
 require_once ARCHIVE_LIB.'pclzip.class.php';
-require_once ARCHIVE_LIB.'kodRarArchive.class.php';
 require_once ARCHIVE_LIB.'kodZipArchive.class.php';
 
 class KodArchive {
@@ -40,7 +39,7 @@ class KodArchive {
 		){
 			show_tips("[Error] Can't Open; Missing zlib extensions");
 		}
-		
+
 		if( $result  && $appType == 'rar' &&
 			(!function_exists('shell_exec') || !strstr(shell_exec('echo "kodcloud"'),'kodcloud'))
 		){
@@ -78,13 +77,6 @@ class KodArchive {
 				}
 				$item['index'] = $i;
 				$result[] = $item;
-			}
-		}else if( self::checkIfType($ext,'rar') ){
-			$appResult = kodRarArchive::listContent($file);
-			if(!$appResult['code']){
-				return $appResult;
-			}else{
-				$result = $appResult['data'];
 			}
 		}else{//默认zip
             if(kodZipArchive::support('list')){
@@ -141,7 +133,7 @@ class KodArchive {
 				$indexPath = rtrim($indexPath,'/').'/';//tar 解压文件夹需要/结尾
 				$partName = array($partName);
 			}
-			
+
 			$tempCheck = str_replace('\\','/',$indexPath);
 			if(substr($tempCheck,-1) == '/'){
 				//跟目录；需要追加一层文件夹;window a\b\c\  linux a/b/c/
@@ -155,7 +147,7 @@ class KodArchive {
 			}
 			//debug_out($indexInfo,$indexPath,$partName,$pathRemove,$tempCheck);
 		}
-		
+
 		if( self::checkIfType($ext,'tar') ){
 			//TrOn(10);
 			if($part != '-1'){
@@ -168,8 +160,6 @@ class KodArchive {
 			}
 			//TrDisplay();exit;
 			return array('code'=>$result,'data'=>PclErrorString(true));
-		}else if( self::checkIfType($ext,'rar')){ // || $ext == 'zip' 
-			return kodRarArchive::extract($file,$dest,$ext,$partName);
 		}else if(kodZipArchive::support('extract')){
             return kodZipArchive::extract($file,$dest,$partName);
 		}else{
