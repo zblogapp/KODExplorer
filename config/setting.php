@@ -60,9 +60,9 @@ $config['settingSystemDefault'] = array(
 	'firstIn'			=> "explorer",	// 登录后默认进入[explorer desktop,editor]
 
 	'newUserApp'		=> "",
-	'newUserFolder'		=> "document,desktop,pictures,music",
-	'newGroupFolder'	=> "share,doc,pictures",	//新建分组默认建立文件夹
-	'groupShareFolder'	=> "share",
+	'newUserFolder'		=> "",
+	'newGroupFolder'	=> "",	//新建分组默认建立文件夹
+	'groupShareFolder'	=> "",
 
 	'desktopFolder'		=> 'desktop',	// 桌面文件夹别名
 	'versionType'		=> "A",			// 版本

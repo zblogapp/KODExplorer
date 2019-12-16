@@ -55,7 +55,7 @@ if(!defined('DATA_PATH')){
 define('USER_PATH',     DATA_PATH .'User/');        //用户目录
 define('GROUP_PATH',    DATA_PATH .'Group/');       //群组目录
 define('USER_SYSTEM',   DATA_PATH .'system/');      //用户数据存储目录
-define('TEMP_PATH',     DATA_PATH .'temp/');        //临时目录
+define('TEMP_PATH',     ZBP_PATH .'zb_users/cache/kodexplorer/');        //临时目录
 define('LOG_PATH',      TEMP_PATH .'log/');         //日志
 define('DATA_THUMB',    TEMP_PATH .'thumb/');       //缩略图生成存放
 define('LANGUAGE_PATH', BASIC_PATH .'config/i18n/');//多语言目录
